@@ -1,0 +1,48 @@
+<%- include('../partiels/header.ejs') %>
+    <div class="main-content">
+        <%- include('../menu.ejs') %> 
+        <div class="content">
+            <h2>Liste des evapos</h2>
+            <button class="btn btn-info"><a href="/ajouter_evapo">Ajouter</a></button>
+            <% if (evapos.length>0){ %>
+            <table  class="table">
+            <tr>
+                <td>Valeur</td>
+                <td>Année</td>
+
+            </tr>
+            <% for( evapo of evapos ) { %>
+                <tr>
+
+                    <td><%= evapo.valeur %> </td>
+                    <td> <%= evapo.annee %></td>
+
+                    <td><button class="btn btn-danger" data-doc="<%= evapo._id %> ">Supprimer</button></td>
+                    <td><button class="btn btn-primary"><a href="/modifier_evapo/<%= evapo._id %> ">Modifier</a></button></td>
+
+                    </tr>
+            <% } %>
+
+
+        </table>
+            <% } else{ %>
+<div class="vide">Aucune evapo</div>
+                <% }  %>
+
+    </div>
+    </div>
+    <script>
+        const btnSupprimer = document.querySelector('.btn-danger');
+        btnSupprimer.addEventListener('click',(e)=>{
+            fetch(`/evapo/${btnSupprimer.dataset.doc}`,{
+                method:'DELETE'
+            })
+            .then((result)=>{
+                if(result.ok){
+                    location.assign('/evapo');
+                }
+            })
+        })
+    </script>
+
+   

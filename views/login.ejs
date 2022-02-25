@@ -1,0 +1,62 @@
+<%- include('./partiels/header.ejs') %>
+<div class="login">
+    <div class="container">
+        <h2>Espace d'authentification</h2>
+        <form class="form">
+            <label for="">Email</label>
+            <input type="text" name="email" required>
+            <div class=" error email"></div>
+            <label for="">Password</label>
+            <input type="password" name="password" required>
+            <div class="error password"></div>
+            <input type="submit">
+            <input type="reset" value="Annuler">
+        </form>
+    </div>
+</div>
+
+<script>
+    let form = document.querySelector( 'form' );
+const emailError = document.querySelector( '.email' );
+
+const passwordError = document.querySelector( '.password' );
+
+form.addEventListener( 'submit', async ( e ) => {
+    e.preventDefault();
+    // reset errors
+    emailError.textContent = '';
+    passwordError.textContent = textContent = '';
+    // get value
+    let email = form.email.value;
+    let password = form.password.value;
+    try {
+        const result = await fetch( '/login', {
+            method: 'POST',
+            body: JSON.stringify( {
+                email,
+                password
+            } ),
+            headers: {
+                'content-type': 'application/json'
+            }
+        } );
+        const data = await result.json();
+        console.log( data.user )
+        if ( data.errors ) {
+            emailError.textContent = data.errors.email;
+            passwordError.textContent = data.errors.password;
+        }
+        if ( data.user ) {
+           if(data.user.role === 0){
+                location.assign('/dashboard')
+           }else if(data.user.role === 1){
+                location.assign('/home')
+           }
+        }
+    }
+         catch ( err ) {
+console.log(err);
+    }
+} )
+</script>
+<%- include('./partiels/footer.ejs') %>

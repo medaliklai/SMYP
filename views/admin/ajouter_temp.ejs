@@ -1,0 +1,42 @@
+<%- include('../partiels/header.ejs') %>
+<div class="main-content">
+    <%- include('../menu.ejs') %> 
+    <div class="content">
+        <h2>Ajouter temp</h2>
+        <form class="form">
+            <label for="nom">Valeur</label>
+            <input type="text" name="valeur" required><br/>
+            <label for="prenom">Année</label>
+            <input type="text" name="annee" required><br/>
+           <input type="submit" value="Submit">
+           <input type="reset" value="Annuler">
+        </form>
+    </div>
+</div>
+
+<script>
+    const form  = document.querySelector('form');
+    form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+       const valeur = form.valeur.value;
+       const annee = form.annee.value;
+       console.log(valeur, annee)
+       const newtemp = {valeur, annee};
+       fetch('/temp',{
+           method:'POST',
+           body:JSON.stringify({valeur, annee}),
+           headers:{
+                'content-type':'application/json'
+           }
+       })
+       .then((result)=>{
+           if(result.ok === true){
+               location.assign('/temp')
+           }
+       })
+       .catch((err)=>{
+           console.log(err)
+       })
+   })
+</script>
+<%- include('../partiels/footer.ejs') %> 

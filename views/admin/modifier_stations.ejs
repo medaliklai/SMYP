@@ -1,0 +1,39 @@
+<%- include('../partiels/header.ejs') %>
+<div class="main-content">
+    <%- include('../menu.ejs') %> 
+    <div class="content">
+        <h2>Modifier station</h2>
+        <form class="form" data-doc="<%= station._id %> ">
+            <label for="nom">Valeur</label>
+            <input type="text" name="valeur" value="<%= station.valeur %> " required><br/>
+            <label for="prenom">Année</label>
+            <input type="text" name="annee" value="<%= station.annee %> " required><br/>
+           <input type="submit" value="Submit">
+           <input type="reset" value="Annuler">
+        </form>
+    </div>
+</div>
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit',(e)=>{
+        const valeur = form.valeur.value;
+        const annee = form.annee.value;
+        e.preventDefault();
+        fetch(`/station/${form.dataset.doc}`,{
+            method:'PUT',
+            body:JSON.stringify({valeur, annee}),
+            headers:{
+                "content-type":"application/json"
+            }
+        })
+        .then((result)=>{
+            if(result.ok){
+                location.assign('/stations')
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    })
+</script>
+<%- include('../partiels/footer.ejs') %> 

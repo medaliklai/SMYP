@@ -1,0 +1,72 @@
+<%- include('./partiels/header.ejs') %>
+<div class="signup">
+    <div class="container">
+        <h2>Espace d'Inscription</h2>
+        <form class="form">
+
+            <label for="nom">Nom</label>
+            <input type="text" name="nom" required><br/>
+            <label for="prenom">Prénom</label>
+            <input type="text" name="prenom" required>
+            <div class="email error"></div>
+            <label for="email">email</label>
+            <input type="text" name="email" required><br/>
+            <label for="">password</label>
+            <input type="password" name="password" required>
+            <div class="password error"></div>
+            <input type="submit">
+            <input type="reset" value="Annuler">
+        </form>
+    </div>
+</div>
+
+
+<script>
+    let form = document.querySelector( 'form' );
+const emailError = document.querySelector( '.email' );
+
+const passwordError = document.querySelector( '.password' );
+
+form.addEventListener( 'submit', async ( e ) => {
+    e.preventDefault();
+    // reset errors
+    emailError.textContent = '';
+    passwordError.textContent = textContent = '';
+    // get value
+    let nom = form.nom.value;
+    let prenom = form.prenom.value;
+    let email = form.email.value;
+    let password = form.password.value;
+    let role = 0;
+    try {
+        const result = await fetch( '/signup', {
+            method: 'POST',
+            body: JSON.stringify( {
+                nom,
+                prenom,
+                email,
+                password,
+                role
+            } ),
+            headers: {
+                'content-type': 'application/json'
+            }
+        } );
+        console.log(result.locals)
+        const data = await result.json();
+        
+        if ( data.errors ) {
+            emailError.textContent = data.errors.email;
+            passwordError.textContent = data.errors.password;
+
+
+        }
+        if ( data.user ) {
+            location.assign( '/home' );
+        }
+    } catch ( err ) {
+
+    }
+} )
+</script>
+<%- include('./partiels/footer.ejs') %>

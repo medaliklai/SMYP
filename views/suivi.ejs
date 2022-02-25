@@ -1,0 +1,20 @@
+<%- include('./partiels/header.ejs') %>
+<div class="suivi">
+    <div class="container">
+        <form class="form">
+            <label>Station</label>
+            <select>
+                <option value="">Kef</option>
+                <option value="">Beja</option>
+                <option value="">Jendouba</option>
+            </select><br/>
+            <label>Culture</label>
+            <select>
+                <% for (culture of cultures){ %> 
+                <option value="<%= culture.valeur %> "><%= culture.valeur %> </option>
+                <% } %> 
+            </select><br/>
+        </form>
+    </div>
+</div>
+<%- include('./partiels/footer.ejs') %>

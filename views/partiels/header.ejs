@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/all.min.css">
+    <base href="/">
+    <link rel="stylesheet" base href="css/style.css">
+    <title><%= title %> </title>
+    
+</head>
+<body>
+    
+    <nav>
+        <div class="container">
+                    <% if(user){ %> 
+                    <div class="logo" data-doc="<%= user.role %> ">
+                    <!-- <img src="../../public/images/logo1.png" alt=""> -->
+                    <div class="logo-name">SMYP</div>
+                    <% } else { %> 
+                        <div class="logo" >
+                            <!-- <img src="../../public/images/logo1.png" alt=""> -->
+                            <div class="logo-name">SMYP</div>
+                        <% } %>
+                </div>
+
+            <ul>
+                <% if(!user) {%> 
+               <li><a href='/login'>Authentification</a></li>
+               <li><a href='/signup' >Inscription</a></li>
+               <% }else if(user.role === 1){ %>
+              
+               <li><a href='/suivi' >Suivi de compagne</a></li>
+               <li><a href='/rendement' >Rendement</a></li>
+               <li><a href='/bulletin'>Demande Bulletin</a></li>
+               <li><a href='/logout'>Se déconnecter</a></li>
+               <%} else{ %>
+                <li><a href='/users' class="show">utilisateurs</a></li>
+                <li><a href='/stations' class="show">Stations</a></li>
+                <li><a href='/culture' class="show">Culture</a></li>
+                <li><a href='/evapo' class="show">Evapotranspiration</a></li>
+                <li><a href='/temp' class="show">Températures</a></li>
+                <li><a href='/logout' >Se déconnecter</a></li>
+                <% } %> 
+            </ul>
+            
+            <div class="bars" onclick="handleClick()"><i class="fas fa-bars fa-2x"></i></div>
+
+            </div>
+        </nav>
+        <script>
+
+    var count = 1;
+    const handleClick = ()=>{
+        count+=1
+        const ul = document.querySelector('ul');
+        if (count %2 ===0){
+            ul.style.left = 0;
+            
+        }
+        else{
+            ul.style.left = '-100%';
+        }
+
+    }
+
+    const logo = document.querySelector('.logo');
+    logo.addEventListener('click',()=>{
+       
+        role = +logo.dataset.doc;
+  if(role === 0){
+      location.assign('/dashboard')
+  } else if (role === 1){
+      location.assign('/home')
+  }
+     
+      
+    })
+
+        </script>

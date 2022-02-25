@@ -1,0 +1,48 @@
+<%- include('../partiels/header.ejs') %>
+    <div class="main-content">
+        <%- include('../menu.ejs') %> 
+        <div class="content">
+            <h2>Liste des stations</h2>
+            <button class="btn btn-info"><a href="/ajouter_station">Ajouter</a></button>
+            <% if (stations.length>0){ %>
+            <table  class="table">
+            <tr>
+                <td>Valeur</td>
+                <td>Année</td>
+
+            </tr>
+            <% for( station of stations ) { %>
+                <tr>
+
+                    <td><%= station.valeur %> </td>
+                    <td> <%= station.annee %></td>
+
+                    <td><button class="btn btn-danger" data-doc="<%= station._id %> ">Supprimer</button></td>
+                    <td><button class="btn btn-primary"><a href="/modifier_station/<%= station._id %> ">Modifier</a></button></td>
+
+                    </tr>
+            <% } %>
+
+
+        </table>
+            <% } else{ %>
+<div class="vide">Aucune station</div>
+                <% }  %>
+
+    </div>
+    </div>
+    <script>
+        const btnSupprimer = document.querySelector('.btn-danger');
+        btnSupprimer.addEventListener('click',(e)=>{
+            fetch(`/station/${btnSupprimer.dataset.doc}`,{
+                method:'DELETE'
+            })
+            .then((result)=>{
+                if(result.ok){
+                    location.assign('/stations');
+                }
+            })
+        })
+    </script>
+
+   
